@@ -1,50 +1,34 @@
-# Web Vulnerability Lab
+# Web Vulnerability Lab Practice
 
 ## Overview
 
-A deliberately vulnerable web application built to practice identifying and exploiting common web security vulnerabilities from the OWASP Top 10.
+Set up a local environment to practice identifying and exploiting common web vulnerabilities. Used intentionally vulnerable applications to understand how security flaws work and how to test for them.
 
-## Technologies Used
+## What I Tested
 
-- Python 3.11
-- Flask web framework
-- SQLite database
-- Bootstrap for UI
+- SQL injection in login forms and search parameters
+- Cross-site scripting (XSS) in user input fields
+- Authentication bypass techniques
+- Session management weaknesses
+- File upload vulnerabilities
 
-## Key Features
+## Tools Used
 
-### Vulnerabilities Implemented
+- OWASP WebGoat for guided exercises
+- Burp Suite Community Edition for intercepting requests
+- sqlmap for automated SQL injection testing
+- Browser developer tools for analyzing client-side code
 
-1. **SQL Injection**
-   - Login bypass
-   - Data extraction
-   - Blind SQL injection examples
+## What I Learned
 
-2. **Cross-Site Scripting (XSS)**
-   - Reflected XSS
-   - Stored XSS
-   - DOM-based XSS
+Understanding vulnerabilities from an attacker's perspective helped me see why certain coding practices matter. I learned how to manually test for SQL injection by manipulating query parameters and saw firsthand how unsanitized input can break application logic.
 
-3. **Broken Authentication**
-   - Weak password policies
-   - Session fixation
-   - Insecure session management
+Working with Burp Suite taught me how HTTP requests and responses work at a deeper level. I practiced intercepting traffic, modifying requests, and observing how applications handle unexpected input.
 
-## Setup Instructions
+The most valuable lesson was recognizing that security isn't just about knowing attack types—it's about understanding how applications process data and where assumptions can be exploited.
 
-```bash
-git clone https://github.com/yourusername/web-vuln-lab
-cd web-vuln-lab
-pip install -r requirements.txt
-python app.py
-```
+## Next Steps
 
-## Learning Outcomes
-
-- Understanding common web vulnerabilities
-- Practice with penetration testing tools
-- Secure coding practices
-
-## Disclaimer
-
-This application is intentionally vulnerable and should only be used in controlled environments for educational purposes.
+- Practice on TryHackMe and HackTheBox challenges
+- Study secure coding patterns for the vulnerabilities I tested
+- Learn more about automated security testing tools

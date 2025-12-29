@@ -1,18 +1,23 @@
-import { Link } from 'react-router-dom';
+import { NavLink as RouterNavLink } from 'react-router-dom';
 
 interface NavLinkProps {
   href: string;
   children: React.ReactNode;
-  className?: string;
 }
 
-export default function NavLink({ href, children, className = '' }: NavLinkProps) {
+export default function NavLink({ href, children }: NavLinkProps) {
   return (
-    <Link
+    <RouterNavLink
       to={href}
-      className={`px-4 py-2 text-sm font-medium transition-colors hover:text-primary ${className}`}
+      className={({ isActive }) =>
+        `px-4 py-2 text-sm font-medium transition-colors border-b-2 ${
+          isActive
+            ? 'text-white border-blue-500'
+            : 'text-gray-400 border-transparent hover:text-white hover:border-gray-600'
+        }`
+      }
     >
       {children}
-    </Link>
+    </RouterNavLink>
   );
 }

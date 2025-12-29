@@ -4,10 +4,10 @@ import ActionSection from './sections/ActionSection.tsx';
 
 export default function HomePage() {
   return (
-    <div>
+    <>
       <HeroSection />
       <FocusSection />
       <ActionSection />
-    </div>
+    </>
   );
 }
