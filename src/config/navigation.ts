@@ -16,12 +16,4 @@ export const navItems: NavItem[] = [
     label: 'Notes',
     href: '/notes',
   },
-  {
-    label: 'Resume',
-    href: '/resume',
-  },
-  {
-    label: 'Contact',
-    href: '/contact',
-  },
 ];

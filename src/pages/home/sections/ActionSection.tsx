@@ -1,28 +1,54 @@
 import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
 
 export default function ActionSection() {
   return (
-    <section className="container py-24">
-      <div className="rounded-lg border bg-muted/50 p-16 text-center max-w-4xl mx-auto">
-        <h2 className="text-4xl font-bold mb-6">Explore My Work</h2>
-        <p className="text-lg leading-relaxed text-muted-foreground mb-10 max-w-2xl mx-auto">
-          Check out my projects, read my notes, or get in touch to discuss cybersecurity
+    <section className="container" style={{ padding: '6rem 2rem' }} id="projects">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6 }}
+        className="card"
+        style={{ 
+          maxWidth: '800px', 
+          margin: '0 auto', 
+          textAlign: 'center',
+          padding: '4rem 3rem',
+          background: 'linear-gradient(135deg, #1e293b 0%, #334155 100%)'
+        }}
+      >
+        <h2 style={{ fontSize: '2.5rem', fontWeight: 700, marginBottom: '1.5rem', color: '#f8fafc' }}>
+          Explore My Work
+        </h2>
+        
+        <p style={{ fontSize: '1.125rem', color: '#cbd5e1', marginBottom: '2.5rem', maxWidth: '600px', margin: '0 auto 2.5rem' }}>
+          Check out my projects and read my notes on cybersecurity topics
         </p>
-        <div className="flex gap-6 justify-center flex-wrap">
-          <Link
-            to="/projects"
-            className="inline-flex items-center justify-center rounded-md bg-primary px-10 py-4 text-base font-medium text-primary-foreground hover:bg-primary/90"
-          >
-            View Projects
+        
+        <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
+          <Link to="/projects">
+            <motion.button
+              className="button button-primary"
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              style={{ padding: '1rem 2.5rem', fontSize: '1.0625rem' }}
+            >
+              View Projects
+            </motion.button>
           </Link>
-          <Link
-            to="/contact"
-            className="inline-flex items-center justify-center rounded-md border border-input bg-background px-10 py-4 text-base font-medium hover:bg-accent hover:text-accent-foreground"
-          >
-            Contact Me
+          <Link to="/notes">
+            <motion.button
+              className="button button-secondary"
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              style={{ padding: '1rem 2.5rem', fontSize: '1.0625rem' }}
+            >
+              Read Notes
+            </motion.button>
           </Link>
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 }

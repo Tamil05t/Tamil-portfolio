@@ -1,9 +1,4 @@
-# TryHackMe Learning Path Notes
-
-## Introduction
-
-Comprehensive notes from my journey through TryHackMe's security learning paths.
-
+rtyuihjhggxxcvn
 ## Key Topics Covered
 
 ### Linux Fundamentals

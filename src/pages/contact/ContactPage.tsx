@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { motion } from 'framer-motion';
 import { siteConfig } from '../../config/site';
 
 export default function ContactPage() {
@@ -21,97 +22,122 @@ export default function ContactPage() {
     }));
   };
 
+  const socialLinks = [
+    { name: 'Email', href: `mailto:${siteConfig.email}`, label: siteConfig.email, icon: '📧' },
+    { name: 'GitHub', href: siteConfig.github, label: 'View Profile', icon: '💻' },
+    { name: 'LinkedIn', href: siteConfig.linkedin, label: 'Connect', icon: '💼' },
+  ];
+
   return (
     <div className="container py-24">
-      <div className="max-w-2xl mx-auto">
-        <div className="mb-16">
-          <h1 className="text-5xl font-bold mb-6">Get in Touch</h1>
-          <p className="text-xl leading-relaxed text-muted-foreground">
+      <div className="max-w-4xl mx-auto">
+        <motion.div 
+          className="mb-20 text-center"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+        >
+          <h1 className="text-6xl font-bold mb-6">Get in Touch</h1>
+          <p className="text-2xl leading-relaxed text-gray-300">
             Have a question or want to work together? Feel free to reach out!
           </p>
-        </div>
+        </motion.div>
 
-        <div className="mb-12">
-          <h2 className="text-2xl font-semibold mb-6">Connect With Me</h2>
-          <div className="space-y-3">
-            <a
-              href={`mailto:${siteConfig.email}`}
-              className="block text-lg text-primary hover:underline"
-            >
-              {siteConfig.email}
-            </a>
-            <a
-              href={siteConfig.github}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="block text-lg text-primary hover:underline"
-            >
-              GitHub
-            </a>
-            <a
-              href={siteConfig.linkedin}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="block text-lg text-primary hover:underline"
-            >
-              LinkedIn
-            </a>
-          </div>
-        </div>
-
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div>
-            <label htmlFor="name" className="block text-base font-medium mb-3">
-              Name
-            </label>
-            <input
-              type="text"
-              id="name"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              required
-              className="w-full rounded-md border border-input bg-background px-4 py-3 text-base ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-            />
-          </div>
-
-          <div>
-            <label htmlFor="email" className="block text-base font-medium mb-3">
-              Email
-            </label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              required
-              className="w-full rounded-md border border-input bg-background px-4 py-3 text-base ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-            />
-          </div>
-
-          <div>
-            <label htmlFor="message" className="block text-base font-medium mb-3">
-              Message
-            </label>
-            <textarea
-              id="message"
-              name="message"
-              value={formData.message}
-              onChange={handleChange}
-              required
-              rows={6}
-              className="w-full rounded-md border border-input bg-background px-4 py-3 text-base ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-            />
-          </div>
-
-          <button
-            type="submit"
-            className="w-full rounded-md bg-primary px-10 py-4 text-base font-medium text-primary-foreground hover:bg-primary/90"
+        <div className="grid md:grid-cols-2 gap-8 mb-12">
+          {/* Social Links */}
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
           >
-            Send Message
-          </button>
-        </form>
+            <h2 className="text-3xl font-bold mb-8">Connect With Me</h2>
+            <div className="space-y-4">
+              {socialLinks.map((link, index) => (
+                <motion.a
+                  key={link.name}
+                  href={link.href}
+                  target={link.name !== 'Email' ? '_blank' : undefined}
+                  rel={link.name !== 'Email' ? 'noopener noreferrer' : undefined}
+                  className="card flex items-center gap-4 group"
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.3 + index * 0.1 }}
+                  whileHover={{ x: 10 }}
+                >
+                  <span className="text-4xl">{link.icon}</span>
+                  <div>
+                    <div className="font-semibold text-lg">{link.name}</div>
+                    <div className="text-gray-400">{link.label}</div>
+                  </div>
+                </motion.a>
+              ))}
+            </div>
+          </motion.div>
+
+          {/* Contact Form */}
+          <motion.div
+            initial={{ opacity: 0, x: 30 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+          >
+            <h2 className="text-3xl font-bold mb-8">Send a Message</h2>
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div>
+                <label htmlFor="name" className="block text-base font-medium mb-3">
+                  Name
+                </label>
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  required
+                  className="w-full rounded-lg border border-border bg-input px-4 py-3 text-base transition-all focus:border-primary focus:ring-2 focus:ring-primary/20"
+                />
+              </div>
+
+              <div>
+                <label htmlFor="email" className="block text-base font-medium mb-3">
+                  Email
+                </label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  required
+                  className="w-full rounded-lg border border-border bg-input px-4 py-3 text-base transition-all focus:border-primary focus:ring-2 focus:ring-primary/20"
+                />
+              </div>
+
+              <div>
+                <label htmlFor="message" className="block text-base font-medium mb-3">
+                  Message
+                </label>
+                <textarea
+                  id="message"
+                  name="message"
+                  value={formData.message}
+                  onChange={handleChange}
+                  required
+                  rows={6}
+                  className="w-full rounded-lg border border-border bg-input px-4 py-3 text-base transition-all focus:border-primary focus:ring-2 focus:ring-primary/20 resize-none"
+                />
+              </div>
+
+              <motion.button
+                type="submit"
+                className="button button-primary w-full py-4 text-lg"
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                Send Message
+              </motion.button>
+            </form>
+          </motion.div>
+        </div>
       </div>
     </div>
   );

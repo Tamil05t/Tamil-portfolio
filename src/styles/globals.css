@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap');
+
 * {
   margin: 0;
   padding: 0;
@@ -5,24 +7,37 @@
 }
 
 :root {
-  /* Dark theme colors */
-  --background: #0a0a0a;
-  --foreground: #ededed;
-  --card: #1a1a1a;
-  --card-foreground: #ededed;
+  /* Black theme palette */
+  --background: #000000;
+  --background-secondary: #0a0a0a;
+  --foreground: #ffffff;
+  --foreground-secondary: #e5e5e5;
+  --card: #0a0a0a;
+  --card-hover: #1a1a1a;
+  
+  /* Modern accent colors */
   --primary: #3b82f6;
-  --primary-foreground: #ffffff;
-  --secondary: #27272a;
-  --secondary-foreground: #ededed;
-  --muted: #27272a;
-  --muted-foreground: #a1a1aa;
-  --accent: #27272a;
-  --accent-foreground: #ededed;
-  --border: #27272a;
-  --input: #27272a;
-  --ring: #3b82f6;
+  --primary-hover: #2563eb;
+  --accent: #10b981;
+  --accent-hover: #059669;
+  
+  /* Borders and subtle elements */
+  --border: #1a1a1a;
+  --border-light: #2a2a2a;
+  --muted: #737373;
+  --input-bg: #0a0a0a;
+  
+  /* Spacing */
+  --space-xs: 0.5rem;
+  --space-sm: 1rem;
+  --space-md: 1.5rem;
+  --space-lg: 2rem;
+  --space-xl: 3rem;
+  --space-2xl: 4rem;
+  --space-3xl: 6rem;
 
-  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 16px;
   line-height: 1.6;
   font-weight: 400;
   
@@ -35,52 +50,105 @@
 body {
   margin: 0;
   min-height: 100vh;
-  background-color: var(--background);
+  background: var(--background);
   color: var(--foreground);
+  position: relative;
+}
+
+.hero-handwriting {
+  display: inline-block;
+  overflow: visible;
+  white-space: nowrap;
+  width: 0;
+  position: relative;
+  animation: heroHandwritingReveal 2.6s steps(var(--hero-name-steps, 18), end) 0.2s forwards;
+  /* Painted/marker look */
+  font-family: 'Permanent Marker', cursive;
+  -webkit-text-stroke: 1px rgba(0,0,0,0.18);
+  text-shadow:
+    0 2px 0 rgba(0,0,0,0.12),
+    0 6px 18px rgba(0,0,0,0.35);
+}
+
+@keyframes heroHandwritingReveal {
+  from { width: 0; }
+  to { width: var(--hero-name-width, 18ch); }
+}
+
+/* Subtle background pattern */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    radial-gradient(circle at 20% 20%, rgba(59, 130, 246, 0.08) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(16, 185, 129, 0.08) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
 }
 
 #root {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  position: relative;
+  z-index: 1;
 }
 
-/* Container for centered content */
+/* Container */
 .container {
   width: 100%;
-  max-width: 1280px;
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 0 2rem;
+  padding: 0 var(--space-lg);
 }
 
 @media (max-width: 768px) {
   .container {
-    padding: 0 1rem;
+    padding: 0 var(--space-md);
   }
 }
 
 /* Typography */
 h1, h2, h3, h4, h5, h6 {
   color: var(--foreground);
-  font-weight: 600;
+  font-weight: 700;
   line-height: 1.2;
+  margin-bottom: var(--space-md);
+  letter-spacing: -0.02em;
 }
 
 h1 {
-  font-size: 2.5rem;
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  line-height: 1.1;
+  margin-bottom: var(--space-sm);
 }
 
 h2 {
-  font-size: 2rem;
+  font-size: clamp(2rem, 4vw, 3rem);
+  line-height: 1.2;
 }
 
 h3 {
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  line-height: 1.3;
+}
+
+h4 {
   font-size: 1.5rem;
 }
 
+h5 {
+  font-size: 1.25rem;
+}
+
 p {
-  color: var(--foreground);
-  line-height: 1.6;
+  color: var(--foreground-secondary);
+  line-height: 1.7;
+  margin-bottom: var(--space-sm);
 }
 
 /* Links */
@@ -91,7 +159,7 @@ a {
 }
 
 a:hover {
-  color: #60a5fa;
+  color: var(--primary-hover);
 }
 
 /* Buttons */
@@ -99,6 +167,8 @@ button {
   font-family: inherit;
   cursor: pointer;
   transition: all 0.2s ease;
+  border: none;
+  outline: none;
 }
 
 button:disabled {
@@ -106,16 +176,91 @@ button:disabled {
   cursor: not-allowed;
 }
 
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.875rem 2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 0.5rem;
+  transition: all 0.2s ease;
+}
+
+.button-primary {
+  background: var(--primary);
+  color: white;
+  border: none;
+}
+
+.button-primary:hover {
+  background: var(--primary-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+.button-secondary {
+  background: transparent;
+  color: var(--foreground);
+  border: 2px solid var(--border-light);
+}
+
+.button-secondary:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+  transform: translateY(-1px);
+}
+
+.button-outline {
+  background: transparent;
+  color: var(--primary);
+  border: 2px solid var(--primary);
+}
+
+.button-outline:hover {
+  background: var(--primary);
+  color: white;
+  transform: translateY(-1px);
+}
+
+/* Cards */
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  padding: var(--space-lg);
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+  border-color: var(--border-light);
+  background: var(--card-hover);
+}
+
 /* Form elements */
 input, textarea {
   font-family: inherit;
+  font-size: 1rem;
   color: var(--foreground);
-  background-color: var(--input);
+  background: var(--input-bg);
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  padding: 0.75rem 1rem;
+  transition: all 0.2s ease;
+  width: 100%;
+}
+
+input:focus, textarea:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
 }
 
 input::placeholder,
 textarea::placeholder {
-  color: var(--muted-foreground);
+  color: var(--muted);
 }
 
 /* Scrollbar */
@@ -128,10 +273,62 @@ textarea::placeholder {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--muted);
+  background: var(--border-light);
   border-radius: 5px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--accent);
+  background: var(--muted);
+}
+
+/* Grid layouts */
+.grid {
+  display: grid;
+  gap: var(--space-lg);
+}
+
+.grid-cols-1 {
+  grid-template-columns: repeat(1, 1fr);
+}
+
+.grid-cols-2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.grid-cols-3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+@media (max-width: 768px) {
+  .grid-cols-2,
+  .grid-cols-3 {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  .grid-cols-3 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Utility classes */
+.text-center {
+  text-align: center;
+}
+
+.text-muted {
+  color: var(--muted);
+}
+
+.text-accent {
+  color: var(--accent);
+}
+
+.font-bold {
+  font-weight: 700;
+}
+
+.font-semibold {
+  font-weight: 600;
 }
