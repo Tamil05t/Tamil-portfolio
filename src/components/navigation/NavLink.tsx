@@ -1,21 +1,37 @@
-import { Link, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 
 interface NavLinkProps {
   href: string;
   children: React.ReactNode;
+  isActive: boolean;
 }
 
-export default function NavLink({ href, children }: NavLinkProps) {
-  const location = useLocation();
-  const isActive = location.pathname === href;
+export default function NavLink({ href, children, isActive }: NavLinkProps) {
+  // Handle smooth scrolling to section
+  const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    const targetId = href; // href should be section ID like 'home', 'projects', etc.
+    const targetElement = document.getElementById(targetId);
+    
+    if (targetElement) {
+      targetElement.scrollIntoView({ 
+        behavior: 'smooth',
+        block: 'start'
+      });
+      
+      // Update URL hash
+      window.history.pushState(null, '', `#${targetId}`);
+    }
+  };
 
   return (
-    <Link 
-      to={href}
+    <a 
+      href={`#${href}`}
+      onClick={handleClick}
       style={{
         position: 'relative',
-        display: 'inline-block'
+        display: 'inline-block',
+        textDecoration: 'none'
       }}
     >
       <motion.div
@@ -46,6 +62,6 @@ export default function NavLink({ href, children }: NavLinkProps) {
       >
         {children}
       </motion.div>
-    </Link>
+    </a>
   );
 }

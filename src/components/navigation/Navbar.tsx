@@ -1,8 +1,31 @@
+import { useState, useEffect } from 'react';
 import { navItems } from '../../config/navigation';
 import NavLink from './NavLink.tsx';
 import { motion } from 'framer-motion';
 
 export default function Navbar() {
+  const [activeSection, setActiveSection] = useState('home');
+
+  useEffect(() => {
+    // Listen for active section changes from HomePage
+    const handleActiveSectionChange = (e: Event) => {
+      const customEvent = e as CustomEvent;
+      setActiveSection(customEvent.detail);
+    };
+
+    window.addEventListener('activeSectionChange', handleActiveSectionChange);
+
+    // Initial check
+    const hash = window.location.hash.slice(1);
+    if (hash) {
+      setActiveSection(hash);
+    }
+
+    return () => {
+      window.removeEventListener('activeSectionChange', handleActiveSectionChange);
+    };
+  }, []);
+
   return (
     <motion.nav 
       initial={{ y: -20, opacity: 0 }}
@@ -34,7 +57,7 @@ export default function Navbar() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.1 }}
           >
-            <NavLink href={item.href}>
+            <NavLink href={item.href} isActive={activeSection === item.href}>
               {item.label}
             </NavLink>
           </motion.div>

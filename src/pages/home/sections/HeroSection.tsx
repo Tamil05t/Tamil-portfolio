@@ -1,42 +1,77 @@
 import { motion } from 'framer-motion';
+import { useState, useEffect } from 'react';
 import { siteConfig } from '../../../config/site';
 
 export default function HeroSection() {
   const name = siteConfig.name;
   const handwritingSteps = Math.max(name.length + 2, 16);
   const handwritingWidth = `${handwritingSteps}ch`;
+  
+  const roles = ['Penetration Tester', 'CTF Player', 'Bug Bounty Hunter', 'Ethical Hacker'];
+  const [currentRole, setCurrentRole] = useState('');
+  const [roleIndex, setRoleIndex] = useState(0);
+  const [isTyping, setIsTyping] = useState(true);
+  const [charIndex, setCharIndex] = useState(0);
+
+  useEffect(() => {
+    const typingSpeed = 100;
+    const deletingSpeed = 50;
+    const pauseAfterTyping = 2000;
+    const pauseAfterDeleting = 500;
+
+    if (isTyping) {
+      if (charIndex < roles[roleIndex].length) {
+        const timeout = setTimeout(() => {
+          setCurrentRole(roles[roleIndex].substring(0, charIndex + 1));
+          setCharIndex(charIndex + 1);
+        }, typingSpeed);
+        return () => clearTimeout(timeout);
+      } else {
+        const timeout = setTimeout(() => {
+          setIsTyping(false);
+        }, pauseAfterTyping);
+        return () => clearTimeout(timeout);
+      }
+    } else {
+      if (charIndex > 0) {
+        const timeout = setTimeout(() => {
+          setCurrentRole(roles[roleIndex].substring(0, charIndex - 1));
+          setCharIndex(charIndex - 1);
+        }, deletingSpeed);
+        return () => clearTimeout(timeout);
+      } else {
+        const timeout = setTimeout(() => {
+          setRoleIndex((roleIndex + 1) % roles.length);
+          setIsTyping(true);
+        }, pauseAfterDeleting);
+        return () => clearTimeout(timeout);
+      }
+    }
+  }, [charIndex, isTyping, roleIndex]);
 
   return (
-    <section className="container" style={{ minHeight: 'calc(100vh - 4rem)', display: 'flex', alignItems: 'center', overflow: 'hidden' }}>
-      <div className="grid" style={{ gridTemplateColumns: '1fr auto', gap: '6rem', alignItems: 'center', maxWidth: '1200px', margin: '0 auto', width: '100%' }}>
+    <section className="container" style={{ minHeight: 'calc(100vh - 80px)', display: 'flex', alignItems: 'center', overflow: 'hidden' }}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', maxWidth: '100%', margin: '0 auto', width: '100%', gap: '0.5rem' }}>
         {/* Left side - Text content */}
         <motion.div
           initial={{ opacity: 0, x: -30 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.6 }}
-          style={{ minWidth: 0 }}
+          style={{ flex: 1, minWidth: 0 }}
         >
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2, duration: 0.6 }}
-            className="hero-handwriting"
+            className="hero-name"
             style={{ 
-              fontSize: '6rem',
-              fontFamily: '"Permanent Marker", cursive',
-              fontWeight: 700,
-              lineHeight: 1.02,
-              marginBottom: '1.2rem',
+              marginBottom: '1.5rem',
               color: 'transparent',
               background: 'linear-gradient(135deg, #ffffff 0%, #ff4444 50%, #cc0000 100%)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
               backgroundClip: 'text',
-              letterSpacing: '0.01em',
-              textTransform: 'none',
               position: 'relative',
-              ['--hero-name-width' as any]: handwritingWidth,
-              ['--hero-name-steps' as any]: handwritingSteps,
             }}
           >
             {name}
@@ -53,32 +88,23 @@ export default function HeroSection() {
               color: '#3b82f6',
               letterSpacing: '0.15em',
               textTransform: 'uppercase',
-              textAlign: 'center',
+              textAlign: 'left',
               paddingLeft: '0',
-              marginBottom: '1.5rem'
+              marginBottom: '1.5rem',
+              minHeight: '2.5rem',
+              display: 'flex',
+              alignItems: 'center'
             }}
           >
-            Ethical Hacker
+            {currentRole}
+            <span style={{ 
+              animation: 'blink 1s infinite',
+              marginLeft: '2px',
+              color: '#3b82f6'
+            }}>|</span>
           </motion.h2>
-          
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.35, duration: 0.6 }}
-            style={{ 
-              fontSize: '0.875rem',
-              fontWeight: 700,
-              lineHeight: 1.4,
-              color: '#ffffff',
-              textAlign: 'center',
-              marginBottom: '1rem',
-              textTransform: 'uppercase',
-              letterSpacing: '0.15em'
-            }}
-          >
-            Welcome to my portfolio!
-          </motion.p>
 
+          {/* Quote */}
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -89,8 +115,8 @@ export default function HeroSection() {
               lineHeight: 1.6,
               color: '#a0a0a0',
               fontStyle: 'italic',
-              textAlign: 'center',
-              marginBottom: '2.5rem'
+              textAlign: 'left',
+              marginBottom: '2rem'
             }}
           >
             "From curiosity to capability in cybersecurity."
@@ -104,12 +130,14 @@ export default function HeroSection() {
             style={{ 
               display: 'flex',
               gap: '2.5rem',
-              justifyContent: 'center',
+              justifyContent: 'flex-start',
               flexWrap: 'wrap'
             }}
           >
             <motion.a
-              href="#"
+              href="https://drive.google.com/file/d/1baGu2nW4VoYJ-wCO_LtLAC7vaiq3zxS1/view?usp=sharing"
+              target="_blank"
+              rel="noopener noreferrer"
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.5, duration: 0.5 }}
@@ -156,7 +184,7 @@ export default function HeroSection() {
             </motion.a>
 
             <motion.a
-              href="#"
+              href="/certifications"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.6, duration: 0.5 }}
@@ -201,62 +229,15 @@ export default function HeroSection() {
                 }}
               />
             </motion.a>
-
-            <motion.a
-              href="#"
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.7, duration: 0.5 }}
-              whileHover={{ scale: 1.1, y: -3 }}
-              whileTap={{ scale: 0.95 }}
-              style={{
-                color: '#e5e5e5',
-                textDecoration: 'none',
-                fontWeight: 600,
-                fontSize: '1rem',
-                transition: 'all 0.3s ease',
-                cursor: 'pointer',
-                position: 'relative',
-                display: 'inline-block'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.color = '#ff4444';
-                e.currentTarget.style.textShadow = '0 0 20px rgba(255, 68, 68, 0.6)';
-                const underline = e.currentTarget.querySelector('.underline') as HTMLElement;
-                if (underline) underline.style.width = '100%';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.color = '#e5e5e5';
-                e.currentTarget.style.textShadow = 'none';
-                const underline = e.currentTarget.querySelector('.underline') as HTMLElement;
-                if (underline) underline.style.width = '0%';
-              }}
-            >
-              Contact
-              <div 
-                className="underline"
-                style={{
-                  position: 'absolute',
-                  bottom: '-4px',
-                  left: '50%',
-                  transform: 'translateX(-50%)',
-                  width: '0%',
-                  height: '2px',
-                  background: 'linear-gradient(90deg, transparent, #ff4444, transparent)',
-                  transition: 'width 0.4s ease',
-                  boxShadow: '0 0 10px rgba(255, 68, 68, 0.5)'
-                }}
-              />
-            </motion.a>
           </motion.div>
         </motion.div>
 
-        {/* Right side - Avatar */}
+        {/* Right side - Avatar and Quote */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
+          initial={{ opacity: 0, x: 30 }}
+          animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.3, duration: 0.7 }}
-          style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+          style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '2rem' }}
         >
           <div style={{ position: 'relative' }}>
             {/* Decorative background circles */}
@@ -322,16 +303,49 @@ export default function HeroSection() {
               }}
             />
           </div>
+
+          {/* Quote */}
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5, duration: 0.6 }}
+            style={{ 
+              fontSize: '1.125rem',
+              fontWeight: 400,
+              lineHeight: 1.6,
+              color: '#a0a0a0',
+              fontStyle: 'italic',
+              textAlign: 'center',
+              maxWidth: '380px'
+            }}
+          >
+            "From curiosity to capability in cybersecurity."
+          </motion.p>
         </motion.div>
       </div>
 
-      {/* Mobile responsive */}
+      {/* Responsive styles - aligned with global breakpoints */}
       <style>{`
-        @media (max-width: 968px) {
-          .grid {
-            grid-template-columns: 1fr !important;
-            text-align: center;
+        /* TABLET: 768px - 1023px */
+        @media (min-width: 768px) and (max-width: 1023px) {
+          section > div {
             gap: 3rem !important;
+          }
+        }
+        
+        /* MOBILE: ≤767px */
+        @media (max-width: 767px) {
+          section > div {
+            flex-direction: column !important;
+            text-align: center !important;
+            gap: 2rem !important;
+          }
+          h2 {
+            justify-content: center !important;
+            text-align: center !important;
+          }
+          section > div > div:first-child {
+            align-items: center !important;
           }
         }
       `}</style>

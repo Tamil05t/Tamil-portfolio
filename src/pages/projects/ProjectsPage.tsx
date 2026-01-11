@@ -1,139 +1,80 @@
 import { motion } from 'framer-motion';
-import Markdown from 'react-markdown';
-import webVulnLabMd from '../../content/projects/web-vuln-lab.md?raw';
-import cloudIamMisconfigMd from '../../content/projects/cloud-iam-misconfig.md?raw';
-
-const projects = [
-	{
-		id: 'web-vuln-lab',
-		title: 'Web Vulnerability Lab',
-		content: webVulnLabMd,
-		tags: ['OWASP', 'Pentesting', 'Python', 'Flask'],
-		date: '2024-01',
-		gradient: 'linear-gradient(135deg, #6366f1, #8b5cf6)'
-	},
-	{
-		id: 'cloud-iam-misconfig',
-		title: 'Cloud IAM Misconfiguration Scanner',
-		content: cloudIamMisconfigMd,
-		tags: ['AWS', 'IAM', 'Python', 'boto3'],
-		date: '2024-02',
-		gradient: 'linear-gradient(135deg, #8b5cf6, #ec4899)'
-	},
-];
-
-const containerVariants = {
-	hidden: { opacity: 0 },
-	visible: {
-		opacity: 1,
-		transition: {
-			staggerChildren: 0.2,
-		},
-	},
-};
-
-const cardVariants = {
-	hidden: { opacity: 0, y: 50 },
-	visible: {
-		opacity: 1,
-		y: 0,
-		transition: {
-			duration: 0.6,
-			ease: "easeOut" as const,
-		},
-	},
-};
+import ProjectList from './components/ProjectList';
 
 export default function ProjectsPage() {
 	return (
-		<div className="container py-24">
-			<motion.div 
-				className="mb-20 max-w-4xl mx-auto text-center"
-				initial={{ opacity: 0, y: 20 }}
-				animate={{ opacity: 1, y: 0 }}
-				transition={{ duration: 0.6 }}
-			>
-				<h1 className="text-6xl font-bold mb-6">Projects</h1>
-				<p className="text-2xl leading-relaxed text-gray-300">
-					Cybersecurity projects, labs, and tools I&apos;ve built
-				</p>
-			</motion.div>
-			
-			<motion.div 
-				className="grid gap-8 max-w-6xl mx-auto"
-				variants={containerVariants}
-				initial="hidden"
-				animate="visible"
-			>
-				{projects.map((project, index) => (
-					<motion.div
-						key={project.id}
-						variants={cardVariants}
-						whileHover={{ 
-							y: -10,
-							transition: { duration: 0.3 }
-						}}
-						className="card group cursor-pointer relative overflow-hidden"
+		<section className="py-16" id="projects">
+			<div className="container mx-auto px-6 md:px-64">
+				{/* Decorative background effects */}
+				<div className="absolute inset-0 overflow-hidden pointer-events-none">
+					<motion.div 
+						className="absolute w-96 h-96 rounded-full bg-secondary/10 blur-3xl top-0 left-0"
+						initial={{ opacity: 0 }}
+						animate={{ opacity: 1 }}
+						transition={{ duration: 1 }}
+					/>
+					<motion.div 
+						className="absolute w-96 h-96 rounded-full bg-secondary/10 blur-3xl bottom-0 right-0"
+						initial={{ opacity: 0 }}
+						animate={{ opacity: 1 }}
+						transition={{ duration: 1 }}
+					/>
+				</div>
+
+				<div className="relative">
+					<motion.div 
+						className="mb-16 space-y-6"
+						initial={{ opacity: 0, y: 20 }}
+						animate={{ opacity: 1, y: 0 }}
+						transition={{ duration: 0.6 }}
 					>
-						{/* Animated gradient background */}
-						<motion.div
-							className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-							style={{
-								background: project.gradient,
-								filter: 'blur(40px)',
-								transform: 'scale(0.8)'
-							}}
-						/>
-						
-						<div className="relative z-10">
-							<div className="flex items-start justify-between mb-4">
-								<h2 className="text-3xl font-bold" style={{
-									background: project.gradient,
-									WebkitBackgroundClip: 'text',
-									WebkitTextFillColor: 'transparent',
-									backgroundClip: 'text'
-								}}>
-									{project.title}
+						<div className="flex flex-col md:flex-row md:items-start justify-between gap-6">
+							<div className="space-y-4 max-w-2xl">
+								<h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-primary tracking-tight">
+									Featured Work & Projects
 								</h2>
-								<span className="text-sm text-gray-400 font-mono">{project.date}</span>
+								<p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
+									A curated selection of my professional work and personal projects, showcasing expertise in{' '}
+									<span className="text-primary">full-stack development</span>,{' '}
+									<span className="text-primary">UI/UX design</span>, and{' '}
+									<span className="text-primary">cloud architecture</span>.
+								</p>
 							</div>
-							
-							<div className="prose prose-invert max-w-none mb-6">
-								<Markdown>{project.content}</Markdown>
-							</div>
-							
-							<div className="flex flex-wrap gap-3">
-								{project.tags.map((tag) => (
-									<motion.span
-										key={tag}
-										className="text-sm px-4 py-2 rounded-lg font-medium"
-										style={{
-											background: 'rgba(99, 102, 241, 0.2)',
-											border: '1px solid rgba(129, 140, 248, 0.3)',
-											color: '#818cf8'
-										}}
-										whileHover={{ 
-											scale: 1.05,
-											backgroundColor: 'rgba(99, 102, 241, 0.3)'
-										}}
-									>
-										{tag}
-									</motion.span>
-								))}
+							<div className="flex items-center">
+								<a 
+									href="https://github.com" 
+									target="_blank" 
+									rel="noopener noreferrer"
+									className="inline-flex items-center justify-center whitespace-nowrap font-medium ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 group relative text-primary-foreground bg-primary hover:bg-primary/90 h-10 w-full md:w-auto rounded-2xl px-4 sm:px-5 py-5 sm:py-6 text-sm sm:text-base transition-all duration-300 shadow-lg shadow-primary/5 hover:shadow-primary/10 font-medium"
+								>
+									View Github
+									<div className="w-0 translate-x-[100%] pl-0 opacity-0 transition-all duration-200 group-hover:w-5 group-hover:translate-x-0 group-hover:pl-2 group-hover:opacity-100">
+										<svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 20 20" aria-hidden="true" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+											<path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd"></path>
+										</svg>
+									</div>
+								</a>
 							</div>
 						</div>
-						
-						{/* Top corner accent */}
-						<div className="absolute top-0 right-0 w-32 h-32 opacity-0 group-hover:opacity-30 transition-opacity duration-500"
-							style={{
-								background: project.gradient,
-								filter: 'blur(30px)',
-								borderRadius: '0 1rem 0 0'
-							}}
-						/>
+
+						<div className="flex items-center gap-6 pt-2 overflow-x-auto pb-2 scrollbar-hide">
+							<div className="space-y-1 flex-shrink-0">
+								<span className="text-xl sm:text-2xl font-bold text-primary">50+</span>
+								<p className="text-xs sm:text-sm text-muted-foreground whitespace-nowrap">Projects Completed</p>
+							</div>
+							<div className="w-px h-8 sm:h-10 bg-primary/10 flex-shrink-0"></div>
+							<div className="space-y-1 flex-shrink-0">
+								<span className="text-xl sm:text-2xl font-bold text-primary">3+</span>
+								<p className="text-xs sm:text-sm text-muted-foreground whitespace-nowrap">Years Experience</p>
+							</div>
+						</div>
+
+						<div className="h-px w-full bg-gradient-to-r from-primary/5 via-primary/20 to-primary/5"></div>
 					</motion.div>
-				))}
-			</motion.div>
-		</div>
+					
+					<ProjectList />
+				</div>
+			</div>
+		</section>
 	);
 }

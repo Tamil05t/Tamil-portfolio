@@ -1,28 +1,22 @@
-import { Outlet, useLocation } from 'react-router-dom';
-import { AnimatePresence, motion } from 'framer-motion';
+import { motion } from 'framer-motion';
 import Navbar from '../components/navigation/Navbar.tsx';
+import HomePage from '../pages/home/HomePage.tsx';
 import { siteConfig } from '../config/site';
 
 export default function MainLayout() {
-  const location = useLocation();
-
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
-      <AnimatePresence mode="wait">
-        <motion.main
-          key={location.pathname}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -20 }}
-          transition={{ duration: 0.3, ease: 'easeInOut' }}
-          className="flex-1"
-        >
-          <Outlet />
-        </motion.main>
-      </AnimatePresence>
+      <motion.main
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.3, ease: 'easeInOut' }}
+        className="flex-1"
+      >
+        <HomePage />
+      </motion.main>
       <motion.footer 
-        className="relative mt-20"
+        className="relative"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.5 }}
@@ -41,6 +35,28 @@ export default function MainLayout() {
           }}>
             {/* Social Icons */}
             <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'center' }}>
+              <motion.a 
+                href={`mailto:${siteConfig.email}?subject=Portfolio Contact&body=Hi,`}
+                onClick={(e) => {
+                  e.preventDefault();
+                  window.location.href = `mailto:${siteConfig.email}?subject=Portfolio Contact&body=Hi,`;
+                }}
+                whileHover={{ scale: 1.15, y: -3 }}
+                style={{ 
+                  color: '#cbd5e1', 
+                  transition: 'all 0.3s',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center'
+                }}
+                title="Email"
+                onMouseEnter={(e) => e.currentTarget.style.filter = 'drop-shadow(0 0 8px rgba(234, 88, 12, 0.8))'}
+                onMouseLeave={(e) => e.currentTarget.style.filter = 'none'}
+              >
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+                </svg>
+              </motion.a>
               <motion.a 
                 href={siteConfig.linkedin}
                 target="_blank"

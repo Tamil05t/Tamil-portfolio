@@ -1,23 +1,48 @@
-import ProjectCard, { type Project } from './ProjectCard.tsx';
+import { useState } from 'react';
+import { motion } from 'framer-motion';
+import ProjectCard from './ProjectCard';
+import ProjectModal from '../../../components/ui/ProjectModal';
+import { projects } from '../data/projects';
+import type { Project } from '../data/projects';
 
-interface ProjectListProps {
-  projects: Project[];
-}
+export default function ProjectList() {
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-export default function ProjectList({ projects }: ProjectListProps) {
-  if (projects.length === 0) {
-    return (
-      <div className="text-center py-12 text-muted-foreground">
-        No projects found
-      </div>
-    );
-  }
+  const handleProjectClick = (project: Project) => {
+    setSelectedProject(project);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setTimeout(() => setSelectedProject(null), 300);
+  };
 
   return (
-    <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-      {projects.map((project) => (
-        <ProjectCard key={project.id} project={project} />
-      ))}
-    </div>
+    <>
+      {/* Grid Layout */}
+      <div 
+        className="grid gap-8"
+        style={{
+          gridTemplateColumns: 'repeat(auto-fill, minmax(350px, 1fr))',
+        }}
+      >
+        {projects.map((project, index) => (
+          <ProjectCard 
+            key={project.id}
+            project={project} 
+            onClick={() => handleProjectClick(project)}
+            index={index}
+          />
+        ))}
+      </div>
+
+      <ProjectModal 
+        project={selectedProject}
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+      />
+    </>
   );
 }
